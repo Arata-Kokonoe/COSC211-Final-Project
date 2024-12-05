@@ -1,13 +1,19 @@
+package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import entities.Player;
+import map.MapGraph;
+
 public class GameState {
 	
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    private boolean upPressed, downPressed, leftPressed, rightPressed;
     public Player player;
+
+	public MapGraph mapGraph;
 
 	private KeyHandler keyHandler;
 	private MouseHandler mouseHandler;
