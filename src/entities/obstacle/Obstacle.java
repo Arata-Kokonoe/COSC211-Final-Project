@@ -1,16 +1,12 @@
 package entities.obstacle;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import entities.Entity;
-import entities.Hitbox;
 
 public class Obstacle extends Entity{
     
-    Hitbox hitbox;
-    int x, y, width, height;
+    protected int x, y, width, height;
     public boolean collision;
 
     public final static int MAX_OBS = 2;
@@ -20,7 +16,6 @@ public class Obstacle extends Entity{
         y = obsY;
         width = obsWidth;
         height = obsHeight;
-        hitbox = new Hitbox(obsX, obsY, obsWidth, obsHeight);
         collision = false;
     }
 

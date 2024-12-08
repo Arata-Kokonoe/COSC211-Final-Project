@@ -1,5 +1,4 @@
 package entities;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -8,13 +7,12 @@ import javax.imageio.ImageIO;
 import entities.obstacle.Obstacle;
 import main.GameFrame;
 import main.UtilityTool;
-import map.List;
 
 public class Player extends Entity{
 
-    public BufferedImage back1, back2, back3, front1, front2, front3, left1, left2, left3, right1, right2, right3, current;
-    int spriteCounter, standCounter, spriteNum;
-    String direction;
+    private BufferedImage back1, back2, back3, front1, front2, front3, left1, left2, left3, right1, right2, right3, current;
+    private int spriteCounter, standCounter, spriteNum;
+    private String direction;
 
     public Player(){
         super();

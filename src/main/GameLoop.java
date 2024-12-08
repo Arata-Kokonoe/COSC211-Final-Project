@@ -27,20 +27,7 @@ public class GameLoop implements Runnable {
 
     @Override
     public void run() {
-        /*boolean gameOver = false;
-        while (!gameOver) {
-            try {
-                long start = System.currentTimeMillis();
-                //
-                state.update();
-                canvas.render(state);
-                //
-                long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
-                if (delay > 0)
-                    Thread.sleep(delay);
-            } catch (InterruptedException ex) {
-            }
-        }*/
+
         double drawInterval = 1000000000/FPS;
         double delta = 0;
         long lastTime = System.nanoTime();

@@ -18,7 +18,7 @@ public class MapGraph {
     public void makeGraph(String floor){
 
         roomList.add(new Room(0));
-        state.currentRoom = roomList.getFirst().getValue();
+        state.setCurrentRoom(roomList.getFirst().getValue());
 
         /*
         int roomAmount = state.rng.nextInt(7, 10);
@@ -26,7 +26,7 @@ public class MapGraph {
             roomList.add(new Room(state.rng.nextInt(1, Room.MAX_ROOMS)));
         }
         */
-        
+
     }
 
 }

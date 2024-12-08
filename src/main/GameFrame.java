@@ -18,14 +18,14 @@ public class GameFrame extends JFrame {
     public static final int GAME_HEIGHT = TILE_SIZE * MAX_ROW;
     public static final int GAME_WIDTH = TILE_SIZE * MAX_COL;
 
-	public int cameraWidth = GAME_WIDTH;
-    public int cameraHeight = GAME_HEIGHT;
-	public BufferedImage tempScreen;
+	private int screenWidth = GAME_WIDTH;
+    private int screenHeight = GAME_HEIGHT;
+	private BufferedImage tempScreen;
 
     private BufferStrategy bufferStrategy;
 
-	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-    GraphicsDevice gd = ge.getDefaultScreenDevice();
+	private GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    private GraphicsDevice gd = ge.getDefaultScreenDevice();
 	
 	public GameFrame(String title) {
 		super(title);
@@ -88,18 +88,17 @@ public class GameFrame extends JFrame {
 	
 		//draw background
 		g2temp.setColor(Color.WHITE);
-		g2temp.fillRect(0, 0, cameraWidth, cameraHeight);
+		g2temp.fillRect(0, 0, screenWidth, screenHeight);
 		
 		//draw all elements to
-		state.player.draw(g2temp);
-		state.currentRoom.draw(g2temp);
+		state.draw(g2temp);
 
 		g2temp.dispose();
 
 		//draw to screen buffer
 		g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, cameraWidth, cameraHeight);
-		g2d.drawImage(tempScreen, 0, 0, cameraWidth, cameraHeight, null);
+        g2d.fillRect(0, 0, screenWidth, screenHeight);
+		g2d.drawImage(tempScreen, 0, 0, screenWidth, screenHeight, null);
 	}
 
 	public void setFullscreen(){
@@ -112,9 +111,9 @@ public class GameFrame extends JFrame {
         
 
         //GET FULLSCREEN WIDTH AND HEIGHT
-        cameraWidth = this.getWidth();
-        cameraHeight = this.getHeight();
-		System.out.println(cameraHeight);
+        screenWidth = this.getWidth();
+        screenHeight = this.getHeight();
+		System.out.println(screenHeight);
     }
 
 	public void setWindowed(){
@@ -126,8 +125,8 @@ public class GameFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-		cameraWidth = this.getWidth();
-        cameraHeight = this.getHeight();
-		System.out.println(cameraHeight);
+		screenWidth = this.getWidth();
+        screenHeight = this.getHeight();
+		System.out.println(screenHeight);
 	}
 }

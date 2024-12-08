@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class Hitbox extends Rectangle{
-    public int entityWidth, entityHeight;
+    private int entityWidth, entityHeight;
 
     public Hitbox(int entX, int entY, int entWidth, int entHeight){
         x = entX;

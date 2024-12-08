@@ -1,10 +1,10 @@
 package main;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Map;
 import java.util.Random;
 
 import entities.Player;
@@ -14,21 +14,21 @@ import map.Room;
 public class GameState {
 	
     private boolean upPressed, downPressed, leftPressed, rightPressed;
-    public Player player;
+    private Player player;
 
 	public boolean settingsChanged;
 	public boolean fullscreen;
 
-	public int state;
+	private int state;
 	public final int TITLE_STATE = 0;
 	public final int PLAY_STATE = 1;
 	public final int SETTINGS_STATE = 2;
 
-	public MapGraph mapGraph;
-	public Room currentRoom;
-	public String currentFloor;
+	private MapGraph mapGraph;
+	private Room currentRoom;
+	private String currentFloor;
 
-	public Random rng;
+	private Random rng;
 
 	private KeyHandler keyHandler;
 	private MouseHandler mouseHandler;
@@ -66,6 +66,11 @@ public class GameState {
 		//  based on user input and elapsed time ...
 		//
 	}	
+
+	public void draw(Graphics2D g2){
+		player.draw(g2);
+		currentRoom.draw(g2);
+	}
 	
 	public KeyListener getKeyListener() {
 		return keyHandler;
@@ -75,6 +80,16 @@ public class GameState {
 	}
 	public MouseMotionListener getMouseMotionListener() {
 		return mouseHandler;
+	}
+
+	public Random getRNG(){
+		return rng;
+	}
+	public void setCurrentRoom(Room newRoom){
+		currentRoom = newRoom;
+	}
+	public int getState(){
+		return state;
 	}
 
 

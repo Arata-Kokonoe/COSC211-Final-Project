@@ -9,8 +9,8 @@ import main.UtilityTool;
 
 public class Entity {
 
-    int x, y, width, height, speed;
-    Hitbox hitbox;
+    protected int x, y, width, height, speed;
+    protected Hitbox hitbox;
 
     public Entity(){
         //default values
