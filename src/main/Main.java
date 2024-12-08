@@ -1,5 +1,7 @@
 package main;
 import java.awt.EventQueue;
+import java.util.Random;
+
 import javax.swing.JFrame;
 
 //Graph backed tower defense or some machine that is connected nodes with edges, something something something
@@ -11,8 +13,10 @@ public class Main {
 		ThreadPool.init();
 		
 		// Show the game menu ...
+			//if no seed is selected
+			long seed = new Random().nextLong();
 		
-		// After the palyer clicks 'PLAY' ...
+		// After the player clicks 'PLAY' ...
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -23,7 +27,7 @@ public class Main {
 				frame.initBufferStrategy();
 				// Create and execute the game-loop
 				GameLoop game = new GameLoop(frame);
-				game.init();
+				game.init(seed);
 				ThreadPool.execute(game);
 				// and the game starts ...
 			}

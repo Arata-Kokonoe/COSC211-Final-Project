@@ -17,9 +17,9 @@ public class GameLoop implements Runnable {
     /**
      * This must be called before the game loop starts.
      */
-    public void init() {
+    public void init(long seed) {
         // Perform all initializations ...
-        state = new GameState();
+        state = new GameState(seed);
         canvas.addKeyListener(state.getKeyListener());
         canvas.addMouseListener(state.getMouseListener());
         canvas.addMouseMotionListener(state.getMouseMotionListener());

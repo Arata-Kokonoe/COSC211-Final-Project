@@ -1,16 +1,31 @@
 package main;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JFrame;
 
 public class GameFrame extends JFrame {
 
-    public static final int GAME_HEIGHT = 720;
-    public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;
+	public static final int TILE_SIZE = 48;
+	public static final int MAX_COL = 20;
+	public static final int MAX_ROW = 12;
+
+    public static final int GAME_HEIGHT = TILE_SIZE * MAX_ROW;
+    public static final int GAME_WIDTH = TILE_SIZE * MAX_COL;
+
+	public int cameraWidth = GAME_WIDTH;
+    public int cameraHeight = GAME_HEIGHT;
+	public BufferedImage tempScreen;
 
     private BufferStrategy bufferStrategy;
+
+	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    GraphicsDevice gd = ge.getDefaultScreenDevice();
 	
 	public GameFrame(String title) {
 		super(title);
@@ -20,6 +35,7 @@ public class GameFrame extends JFrame {
 		//
 		// Initialize the JFrame ...
 		//
+		tempScreen = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 	}
 	
 	/**
@@ -62,8 +78,56 @@ public class GameFrame extends JFrame {
 		// Draw all game elements according 
 		//  to the game 'state' using 'g2d' ...
 		//
-        g2d.setColor(Color.BLACK);
-        g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        state.player.draw(g2d);
+		Graphics2D g2temp = (Graphics2D)tempScreen.getGraphics();
+
+		if(state.settingsChanged){
+			if(state.fullscreen == true) setFullscreen();
+			else if(state.fullscreen == false) setWindowed();
+			state.settingsChanged = false;
+		}
+	
+		//draw background
+		g2temp.setColor(Color.WHITE);
+		g2temp.fillRect(0, 0, cameraWidth, cameraHeight);
+		
+		//draw all elements to
+		state.player.draw(g2temp);
+		state.currentRoom.draw(g2temp);
+
+		g2temp.dispose();
+
+		//draw to screen buffer
+		g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, cameraWidth, cameraHeight);
+		g2d.drawImage(tempScreen, 0, 0, cameraWidth, cameraHeight, null);
+	}
+
+	public void setFullscreen(){
+        //GET LOCAL SCREEN DEVICE
+        
+		setVisible(false);
+        dispose();
+        setUndecorated(true);
+        gd.setFullScreenWindow(this);
+        
+
+        //GET FULLSCREEN WIDTH AND HEIGHT
+        cameraWidth = this.getWidth();
+        cameraHeight = this.getHeight();
+		System.out.println(cameraHeight);
+    }
+
+	public void setWindowed(){
+
+		dispose();
+        setUndecorated(false);
+        gd.setFullScreenWindow(null);
+        setSize(GAME_WIDTH, GAME_HEIGHT);
+        setLocationRelativeTo(null);
+        setVisible(true);
+
+		cameraWidth = this.getWidth();
+        cameraHeight = this.getHeight();
+		System.out.println(cameraHeight);
 	}
 }

@@ -4,36 +4,63 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Map;
+import java.util.Random;
 
 import entities.Player;
 import map.MapGraph;
+import map.Room;
 
 public class GameState {
 	
     private boolean upPressed, downPressed, leftPressed, rightPressed;
     public Player player;
 
+	public boolean settingsChanged;
+	public boolean fullscreen;
+
+	public int state;
+	public final int TITLE_STATE = 0;
+	public final int PLAY_STATE = 1;
+	public final int SETTINGS_STATE = 2;
+
 	public MapGraph mapGraph;
+	public Room currentRoom;
+	public String currentFloor;
+
+	public Random rng;
 
 	private KeyHandler keyHandler;
 	private MouseHandler mouseHandler;
 	
-	public GameState() {
+	public GameState(long seed) {
 		//
 		// Initialize the game state and all elements ...
 		//
+
+		rng = new Random(seed);
 
         player = new Player();
 
 		keyHandler = new KeyHandler();
 		mouseHandler = new MouseHandler();
+		state = PLAY_STATE;
+
+		currentFloor = "start";
+		mapGraph = new MapGraph(this);
+		mapGraph.makeGraph(currentFloor);
 	}
 	
 	/**
 	 * The method which updates the game state.
 	 */
 	public void update() {
-        player.update(upPressed, downPressed, leftPressed, rightPressed);
+		if(state == PLAY_STATE){
+			player.update(upPressed, downPressed, leftPressed, rightPressed, currentRoom.roomArr);
+		}
+		else if (state == SETTINGS_STATE){
+
+		}
 		//
 		// Update the state of all game elements 
 		//  based on user input and elapsed time ...
@@ -68,6 +95,12 @@ public class GameState {
             if(e.getKeyCode() == KeyEvent.VK_S) downPressed = true;
             if(e.getKeyCode() == KeyEvent.VK_A) leftPressed = true;
             if(e.getKeyCode() == KeyEvent.VK_D) rightPressed = true;
+
+			if(e.getKeyCode() == KeyEvent.VK_F){
+				if (fullscreen == false) fullscreen = true;
+				else if (fullscreen == true) fullscreen = false;
+				settingsChanged = true;
+			} 
 		}
 
 		@Override
