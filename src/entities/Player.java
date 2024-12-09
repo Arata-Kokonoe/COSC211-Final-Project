@@ -18,7 +18,7 @@ public class Player extends Entity{
         super();
         width = GameFrame.TILE_SIZE;
         height = GameFrame.TILE_SIZE*2;
-        hitbox = new Hitbox(x, y, width, height, width/2, (int)(height/1.5));
+        hitbox = new Hitbox(x, y, width, height, width/2, (int)(height/2.4));
         getPlayerImage();
         direction = "front";
     }
@@ -134,6 +134,8 @@ public class Player extends Entity{
 
         int tileRow, tileCol;
         Obstacle tile1, tile2, tile3;
+        Hitbox tempHitbox;
+        boolean shiftLeft = true, shiftRight = true, shiftUp = true, shiftDown = true;
 
         if(u || d || l || r){
             if(u){
@@ -141,44 +143,116 @@ public class Player extends Entity{
                 tileRow = (hitbox.y - speed) / GameFrame.TILE_SIZE;    //what row is entity trying to move up into?
                 tile1 = roomArr[hitbox.x/GameFrame.TILE_SIZE][tileRow];    //two possible tiles (since player could be between two tiles)
                 tile2 = roomArr[(hitbox.x + hitbox.width) / GameFrame.TILE_SIZE][tileRow];
-                if(tile1.collision == true || tile2.collision == true){
-                    u = false;  //if either tile has collision on, change boolean to make entity unable to move into them
+                tempHitbox = new Hitbox(hitbox.x, hitbox.y - speed, hitbox.width, hitbox.height);
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    u = false;  //if either tile has checkCollision(this.hitbox) on, change boolean to make entity unable to move into them
+                }
+
+                tempHitbox.x -= speed*5;
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    shiftLeft = false;
+                }
+                tempHitbox.x += speed*10;
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    shiftRight = false;
+                }
+
+                if(u) y -= speed;
+                if(shiftLeft) {
+                    x -= 1;
+                }
+                if(shiftRight) {
+                    x += 1;
                 }
             }
+
             if(d){
                 direction = "front";
                 tileRow = (hitbox.y + hitbox.height + speed) / GameFrame.TILE_SIZE;    //what row is entity trying to move up into?
                 tile1 = roomArr[hitbox.x/GameFrame.TILE_SIZE][tileRow];    //two possible tiles (since player could be between two tiles)
                 tile2 = roomArr[(hitbox.x + hitbox.width) / GameFrame.TILE_SIZE][tileRow];
-                if(tile1.collision == true || tile2.collision == true){
-                    d = false;  //if either tile has collision on, change boolean to make entity unable to move into them
+                tempHitbox = new Hitbox(hitbox.x, hitbox.y + hitbox.height + speed, hitbox.width, hitbox.height);
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    d = false;  //if either tile has checkCollision(this.hitbox) on, change boolean to make entity unable to move into them
+                }
+
+                tempHitbox.x -= speed*5;
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    shiftLeft = false;
+                }
+                tempHitbox.x += speed*10;
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    shiftRight = false;
+                }
+
+                if(d) y += speed;
+                if(shiftLeft) {
+                    x -= 1;
+                }
+                if(shiftRight) {
+                    x += 1;
                 }
             }
+
             if(l){
                 direction = "left";
                 tileCol = (hitbox.x - speed) / GameFrame.TILE_SIZE;    //what row is entity trying to move up into?
                 tile1 = roomArr[tileCol][hitbox.y / GameFrame.TILE_SIZE];    //three possible tiles (since player is a little taller than 1 tile)
                 tile2 = roomArr[tileCol][(hitbox.y + hitbox.height) / GameFrame.TILE_SIZE];
-                tile3 = roomArr[tileCol][(hitbox.y + hitbox.height/2) / GameFrame.TILE_SIZE]; 
-                if(tile1.collision == true || tile2.collision == true || tile3.collision == true){
-                    l = false;  //if either tile has collision on, change boolean to make entity unable to move into them
+                //tile3 = roomArr[tileCol][(hitbox.y + hitbox.height/2) / GameFrame.TILE_SIZE]; 
+                tempHitbox = new Hitbox(hitbox.x - speed, hitbox.y, hitbox.width, hitbox.height);
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true /*|| tile3.checkCollision(this.hitbox) == true*/){
+                    l = false;  //if either tile has checkCollision(this.hitbox) on, change boolean to make entity unable to move into them
                 }
+
+                tempHitbox.y -= speed*5;
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    shiftUp = false;
+                }
+                tempHitbox.y += speed*10;
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    shiftDown = false;
+                }
+
+                if(l) x -= speed;
+                if(shiftUp) {
+                    y -= 1;
+                }
+                if(shiftDown) {
+                    y += 1;
+                }
+
             }
+
             if(r){
                 direction = "right";
                 tileCol = (hitbox.x + hitbox.width + speed) / GameFrame.TILE_SIZE;    //what row is entity trying to move up into?
                 tile1 = roomArr[tileCol][hitbox.y / GameFrame.TILE_SIZE];    //two possible tiles (since player is a little taller than 1 tile)
                 tile2 = roomArr[tileCol][(hitbox.y + hitbox.height) / GameFrame.TILE_SIZE];
-                tile3 = roomArr[tileCol][(hitbox.y + hitbox.height/2) / GameFrame.TILE_SIZE]; 
-                if(tile1.collision == true || tile2.collision == true || tile3.collision == true){
-                    r = false;  //if either tile has collision on, change boolean to make entity unable to move into them
+                //tile3 = roomArr[tileCol][(hitbox.y + hitbox.height/2) / GameFrame.TILE_SIZE];
+                tempHitbox = new Hitbox(hitbox.x + hitbox.width + speed, hitbox.y, hitbox.width, hitbox.height); 
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true /*|| tile3.checkCollision(this.hitbox) == true*/){
+                    r = false;  //if either tile has checkCollision(this.hitbox) on, change boolean to make entity unable to move into them
                 }
+
+                tempHitbox.y -= speed*5;
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    shiftUp = false;
+                }
+                tempHitbox.y += speed*10;
+                if(tile1.checkCollision(tempHitbox) == true || tile2.checkCollision(tempHitbox) == true){
+                    shiftDown = false;
+                }
+
+                if(r) x += speed;
+                if(shiftUp) {
+                    y -= 1;
+                }
+                if(shiftDown) {
+                    y += 1;
+                }
+
             }
-    
-            if(u) y -= speed;
-            if(d) y += speed;
-            if(l) x -= speed;
-            if(r) x += speed;
     
             hitbox.update(x, y);
 
@@ -204,9 +278,38 @@ public class Player extends Entity{
             standCounter++;
             if(standCounter == 20){
                 spriteNum = 1;
+                direction = "front";
                 standCounter = 0;
             }
         }
         
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getMiddleX(){
+        return x + width/2;
+    }
+
+    public int getRightX(){
+        return x + width;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public int getMiddleY(){
+        return y + height/2;
+    }
+
+    public int getBottomY(){
+        return y + height;
+    }
+
+    public Hitbox getHitbox(){
+        return hitbox;
     }
 }

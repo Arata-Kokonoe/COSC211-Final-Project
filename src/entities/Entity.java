@@ -17,7 +17,7 @@ public class Entity {
         x = 50;
         y = 50;
         width = 48;
-        height = 96;
+        height = 48;
         speed = 3;
 
         hitbox = new Hitbox(x, y, width, height);

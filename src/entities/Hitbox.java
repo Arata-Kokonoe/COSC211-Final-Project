@@ -34,4 +34,9 @@ public class Hitbox extends Rectangle{
         g2.setColor(Color.RED);
         g2.draw(this);
     }
+
+    public boolean checkCollision(Hitbox other){
+        if (this.intersects(other)) return true;
+        else return false;
+    }
 }

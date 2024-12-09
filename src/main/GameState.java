@@ -8,6 +8,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
 import entities.Player;
+import entities.enemies.EnemyHandler;
 import map.MapGraph;
 import map.Room;
 
@@ -28,6 +29,8 @@ public class GameState {
 	private Room currentRoom;
 	private String currentFloor;
 
+	private EnemyHandler enemyHandler;
+
 	private Random rng;
 
 	private KeyHandler keyHandler;
@@ -46,9 +49,12 @@ public class GameState {
 		mouseHandler = new MouseHandler();
 		state = PLAY_STATE;
 
+		enemyHandler = new EnemyHandler();
+
 		currentFloor = "start";
 		mapGraph = new MapGraph(this);
 		mapGraph.makeGraph(currentFloor);
+
 	}
 	
 	/**
@@ -56,7 +62,8 @@ public class GameState {
 	 */
 	public void update() {
 		if(state == PLAY_STATE){
-			player.update(upPressed, downPressed, leftPressed, rightPressed, currentRoom.roomArr);
+			player.update(upPressed, downPressed, leftPressed, rightPressed, currentRoom.getRoomArr());
+			enemyHandler.update(player);
 		}
 		else if (state == SETTINGS_STATE){
 
@@ -68,8 +75,11 @@ public class GameState {
 	}	
 
 	public void draw(Graphics2D g2){
-		player.draw(g2);
+		
 		currentRoom.draw(g2);
+		enemyHandler.draw(g2);
+		player.draw(g2);
+		
 	}
 	
 	public KeyListener getKeyListener() {
@@ -87,6 +97,7 @@ public class GameState {
 	}
 	public void setCurrentRoom(Room newRoom){
 		currentRoom = newRoom;
+		enemyHandler.addRoomEnemies(currentRoom.getEnemyList());
 	}
 	public int getState(){
 		return state;
