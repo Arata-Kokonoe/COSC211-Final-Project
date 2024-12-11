@@ -98,12 +98,7 @@ public class GameFrame extends JFrame {
         Camera camera = state.getCamera();
         state.getEntities().stream()
                 .filter(entity -> camera.isInView(entity))
-                .forEach(entity -> g2temp.drawImage(
-                entity.getSprite(),
-                entity.getPosition().intX() - camera.getPosition().intX() - entity.getSize().getWidth() / 2,
-                entity.getPosition().intY() - camera.getPosition().intY() - entity.getSize().getHeight() / 2,
-                null
-        		));
+                .forEach(entity -> entity.draw(g2temp, camera));
 		g2temp.setColor(Color.RED);
 		state.getEntities().stream()
                 .filter(entity -> camera.isInView(entity))

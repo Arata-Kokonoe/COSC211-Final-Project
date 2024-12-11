@@ -1,9 +1,9 @@
 package map;
 
-public class List<T> {
+public class List {
     // YOUR CODE HERE
-    private Node<T> first;
-    private Node<T> last;
+    private Node first;
+    private Node last;
     private int count;
 
     public List() {
@@ -16,8 +16,8 @@ public class List<T> {
         return count;
     }
 
-    public void add(T toAdd) {
-        Node<T> nodeToAdd = new Node<T>(toAdd);
+    public void add(int toAdd) {
+        Node nodeToAdd = new Node(toAdd);
         
         //if there are no nodes, make it the first and last node as it is now the only node
         if (count == 0) {
@@ -35,8 +35,8 @@ public class List<T> {
         count++;
     }
 
-    public Node<T> get(int toGet){
-        Node<T> current = first;
+    public Node get(int toGet){
+        Node current = first;
         int i = 0;
 
         while(i != toGet){
@@ -47,8 +47,8 @@ public class List<T> {
         return current;
     }
 
-    public Node<T> find(T toFind) {
-        Node<T> current = first;
+    public Node find(int toFind) {
+        Node current = first;
         
         while(current != null && current.getValue() != toFind){
             current = current.next;
@@ -57,7 +57,7 @@ public class List<T> {
         return current;
     }
 
-    /*
+    
     public void remove(int toRemove) {
         Node nodeToRemove = find(toRemove); //first, find the node with the string to remove
         
@@ -87,10 +87,10 @@ public class List<T> {
             last = null;
         }
         count--;
-    }*/
+    }
 
-    public Node<T> pop() {
-        Node<T> nodeToRemove = first;
+    public Node pop() {
+        Node nodeToRemove = first;
         
         //if there is more than just one node...
         if(count > 1){
@@ -107,13 +107,13 @@ public class List<T> {
         return nodeToRemove;
     }
 
-    public Node<T> getFirst(){
+    public Node getFirst(){
         return first;
     }
 
-    /*public T[] listToArr(){
-        T[] outputArr = new T[count];
-        Node<T> current = first;
+    public int[] listToArr(){
+        int[] outputArr = new int[count];
+        Node current = first;
         int i = 0;
         while (current != null){
             outputArr[i] = current.getValue();
@@ -121,10 +121,10 @@ public class List<T> {
             current = current.next;
         }
         return outputArr;
-    }*/
+    }
 
     public void print(){
-        Node<T> current = first;
+        Node current = first;
         while (current != null){
             System.out.print(current.getValue() + ", ");
             current = current.next;

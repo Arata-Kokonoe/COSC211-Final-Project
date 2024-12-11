@@ -28,4 +28,8 @@ public class Input implements KeyListener {
     public boolean isPressed(int keyCode) {
         return pressed[keyCode];
     }
+
+    public void unPress(int keyCode) {
+        pressed[keyCode] = false;
+    }
 }

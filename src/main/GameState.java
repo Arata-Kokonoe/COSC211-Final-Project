@@ -27,7 +27,6 @@ public class GameState extends State{
 	public final int SETTINGS_STATE = 2;
 
 	private MapGraph mapGraph;
-	private String currentFloor;
 
 	private Random rng;
 	//private MouseHandler mouseHandler;
@@ -42,9 +41,8 @@ public class GameState extends State{
 
 		initializePlayer();
 
-		currentFloor = "start";
 		mapGraph = new MapGraph(this, rng);
-		mapGraph.makeGraph(currentFloor);
+		mapGraph.makeGraph();
 
 	}
 	
@@ -53,12 +51,14 @@ public class GameState extends State{
 	 */
 	public void update() {
 		if(status == PLAY_STATE){
+			setCurrentRoom(currentRoom);
 			super.update();
 
 			if(input.isPressed(KeyEvent.VK_F)){
+				settingsChanged = true;
 				if (fullscreen == false) fullscreen = true;
 				else if (fullscreen == true) fullscreen = false;
-				settingsChanged = true;
+				input.unPress(KeyEvent.VK_F);
 			}
 		}
 		else if (status == SETTINGS_STATE){
@@ -90,16 +90,18 @@ public class GameState extends State{
 		return rng;
 	}
 	public void setCurrentRoom(Room newRoom){
+		entities.clear();
+		entities.add(player);
 		currentRoom = newRoom;
 		int i = 0;
 		while(i < currentRoom.getEnemyList().size()){
-			currentRoom.getEnemyList().get(i).getValue().setController(new ChaseController(currentRoom.getEnemyList().get(i).getValue(), getPlayer()));
-			entities.add(currentRoom.getEnemyList().get(i).getValue());
+			currentRoom.getEnemyList().get(i).setController(new ChaseController(currentRoom.getEnemyList().get(i), getPlayer()));
+			entities.add(currentRoom.getEnemyList().get(i));
 			i++;
 		}
 		i = 0;
 		while(i < currentRoom.getObsList().size()){
-			entities.add(currentRoom.getObsList().get(i).getValue());
+			entities.add(currentRoom.getObsList().get(i));
 			i++;
 		}
 	}

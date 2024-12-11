@@ -19,7 +19,7 @@ public class Enemy extends MovingEntity{
     
     @Override
     protected void handleCollision(Entity other) {
-        if(other != this && other instanceof MovingEntity){
+        if(other != this && other instanceof MovingEntity || other instanceof Obstacle){
             this.movement.stop();
         }
 

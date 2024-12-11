@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 import core.Position;
 import core.Size;
+import main.Camera;
 import main.GameFrame;
 import main.State;
 import main.UtilityTool;
@@ -24,6 +25,7 @@ public abstract class Entity {
     }
 
     public abstract void update(State state);
+    public abstract void draw(Graphics2D g2, Camera camera);
     public abstract Image getSprite();
     public abstract Hitbox getHitbox();
     public abstract boolean collidesWith(Entity other);

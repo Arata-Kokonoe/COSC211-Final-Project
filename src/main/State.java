@@ -28,6 +28,7 @@ public abstract class State {
         sortObjectsByPosition();
         entities.forEach(entity -> entity.update(this));
         camera.update(this);
+
     }
 
     private void sortObjectsByPosition() {
@@ -59,5 +60,8 @@ public abstract class State {
         return entities.stream()
                 .filter(other -> other.getHitbox().getHitbox().intersects(hitbox))
                 .collect(Collectors.toList());
+    }
+    public void setCurrentRoom(Room newRoom) {
+        currentRoom = newRoom;
     }
 }

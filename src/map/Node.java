@@ -1,16 +1,16 @@
 package map;
 
-public class Node<T> {
-    private T value;
-    public Node<T> next, prev;
+public class Node {
+    private int value;
+    public Node next, prev;
 
-    public Node(T v) {
+    public Node(int v) {
         value = v;
         next = null;
         prev = null;
     }
 
-    public T getValue(){
+    public int getValue(){
         return value;
     }
 }

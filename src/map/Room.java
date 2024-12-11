@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import core.Position;
 import entities.enemies.Enemy;
@@ -24,15 +25,17 @@ public class Room{
     private Obstacle[][] obsArr;
     private Enemy[][] enemyArr;
     
-    private List<Obstacle> obsList;
-    private List<Enemy> enemyList;
+    private ArrayList<Obstacle> obsList;
+    private ArrayList<Enemy> enemyList;
+
+    public Room up, left, down, right;
 
     public Room(int type){
         tileArr = new Tile[GameFrame.MAX_COL][GameFrame.MAX_ROW];
         obsArr = new Obstacle[GameFrame.MAX_COL][GameFrame.MAX_ROW];
         enemyArr = new Enemy[GameFrame.MAX_COL][GameFrame.MAX_ROW];
-        obsList = new List<Obstacle>();
-        enemyList = new List<Enemy>();
+        obsList = new ArrayList<Obstacle>();
+        enemyList = new ArrayList<Enemy>();
 
         setupTiles(type);
         setupObstacles(type);
@@ -233,10 +236,10 @@ public class Room{
     public Enemy[][] getEnemyArr(){
         return enemyArr;
     }
-    public List<Obstacle> getObsList(){
+    public ArrayList<Obstacle> getObsList(){
         return obsList;
     }
-    public List<Enemy> getEnemyList(){
+    public ArrayList<Enemy> getEnemyList(){
         return enemyList;
     }
     public int getWidth(){

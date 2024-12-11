@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 import entities.Entity;
 import entities.Hitbox;
+import main.Camera;
 import main.State;
 import core.Size;
 
@@ -32,6 +33,15 @@ public abstract class Obstacle extends Entity{
 
     public void update(State state){
         handleCollisions(state);
+    }
+
+    public void draw(Graphics2D g2, Camera camera){
+        g2.drawImage(
+            this.getSprite(),
+            this.getPosition().intX() - camera.getPosition().intX() - this.getSize().getWidth() / 2,
+            this.getPosition().intY() - camera.getPosition().intY() - this.getSize().getHeight() / 2,
+            null
+            ); 
     }
 
     private void handleCollisions(State state) {

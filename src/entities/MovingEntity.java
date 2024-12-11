@@ -1,5 +1,6 @@
 package entities;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -9,6 +10,7 @@ import controller.Controller;
 import core.Direction;
 import core.Motion;
 import main.AnimationManager;
+import main.Camera;
 import main.State;
 
 public abstract class MovingEntity extends Entity{
@@ -44,26 +46,16 @@ public abstract class MovingEntity extends Entity{
             i++;
         }
         if(move == true) position.apply(movement);
-        else{
-            
-        }
+        
+    }
 
-        /*
-        moveUp = true; moveDown = true; moveLeft = true; moveRight = true;
-        handleMotion();
-        animationManager.update(direction);
-
-        handleCollisions(state);
-        manageDirection();
-        decideAnimation();
-
-        if(moveUp && moveDown && moveLeft && moveRight) position.apply(movement);
-        else {
-            //if((controller.up() || controller.down()) && (controller.left() || controller.right()));
-            if (!moveUp || !moveDown) position.setX(position.getX() + movement.getVector().getX());
-            if (!moveLeft || !moveRight) position.setY(position.getY() + movement.getVector().getY());
-        }
-        */
+    public void draw(Graphics2D g2, Camera camera){
+        g2.drawImage(
+            this.getSprite(),
+            this.getPosition().intX() - camera.getPosition().intX() - this.getSize().getWidth() / 2,
+            this.getPosition().intY() - camera.getPosition().intY() - this.getSize().getHeight() / 2,
+            null
+            ); 
     }
 
     protected void handleCollisions(State state) {
@@ -110,6 +102,10 @@ public abstract class MovingEntity extends Entity{
 
     public Controller getController() {
         return controller;
+    }
+
+    public int getSpeed(){
+        return speed;
     }
 
     public BufferedImage getAnimationSheet(){

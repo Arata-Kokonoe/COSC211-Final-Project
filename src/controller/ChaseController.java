@@ -41,8 +41,21 @@ public class ChaseController implements Controller {
     }
 
     public Vector2D fromToVector(){
-        return new Vector2D(chased.getPosition().getX() - chaser.getPosition().getX(),
-                            chased.getPosition().getY() - chaser.getPosition().getY());
+        double diffX = chased.getPosition().getX() - chaser.getPosition().getX();
+        double diffY = chased.getPosition().getY() - chaser.getPosition().getY();
+
+        float angle = (float)Math.atan2(diffY, diffX);
+
+        return new Vector2D(chaser.getSpeed() * Math.cos(angle), chased.getSpeed() * Math.sin(angle));
+    }
+
+    public Vector2D toPlayer(int x, int y){
+        double diffX = chased.getPosition().getX() - x;
+        double diffY = chased.getPosition().getY() - y;
+
+        float angle = (float)Math.atan2(diffY, diffX);
+
+        return new Vector2D(chaser.getSpeed() * Math.cos(angle), chased.getSpeed() * Math.sin(angle));
     }
 
 }
