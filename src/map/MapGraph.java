@@ -8,8 +8,8 @@ import main.GameState;
 public class MapGraph {
 
     private GameState state;
-    private boolean arr[][];
     private ArrayList<Room> roomList;
+    //private int[][] adjMatrix
     private List[] adjList;
     private Random rng;
     private int numRooms;
@@ -18,7 +18,6 @@ public class MapGraph {
     public MapGraph(GameState s, Random rng){
         this.rng = rng;
         state = s;
-        arr = new boolean[30][30]; //max floor will lie on a 30x30 2d array
         roomList = new ArrayList<Room>();
         edges = 0;
     }
@@ -30,9 +29,11 @@ public class MapGraph {
 
         numRooms = rng.nextInt(10, 12);
         adjList = new List[numRooms];
+        //adjMatrix = new int[numRooms][numRooms];
         for(int i = 0; i < numRooms; i++){
             roomList.add(new Room(rng.nextInt(1, Room.MAX_ROOMS)));
             adjList[i] = new List();
+            //private int[i][i] adjMatrix = 0;
         }
 
         while(!this.reachable(0, numRooms-1)){
@@ -58,31 +59,20 @@ public class MapGraph {
     public void addEdge(int i, int j) {
         // YOUR CODE HERE
             adjList[i].add(j);
+            //adjMatrix[i][j]++;
         }
     
         public void removeEdge(int i, int j) {
         // YOUR CODE HERE
             adjList[i].remove(j);
+            //adjMatrix[i][j]--;
         }
     
         public boolean hasEdge(int i, int j) {
         // YOUR CODE HERE
             if (adjList[i].find(j) != null) return true;
             else return false;
-        }
-    
-        public List outEdges(int i) {
-        // YOUR CODE HERE
-            return adjList[i];
-        }
-    
-        public List inEdges(int i) {
-        // YOUR CODE HERE
-            List output = new List();
-            for (int j = 0; j < numRooms; j++){
-                if(adjList[j].find(i) != null) output.add(j); 
-            }
-            return output;
+            //return adjMatrix[i][j];
         }
 
     private boolean reachable(int source, int destination) {
@@ -122,6 +112,14 @@ public class MapGraph {
                 }
             }
             return false;
+
+
+        //adjacencyMatrix implementation
+        /*
+         * look through each row of column[source] and add whichever rows that have a 1 to the seenList and searchList
+         * repeat but instead of column[source] keep going through column[searchList.pop()], making sure not to add the node back if it was already seen
+         * return true if the destination is found; otherwise, return false
+         */
         }
 
 }
