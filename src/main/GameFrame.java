@@ -9,6 +9,9 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
+import core.Position;
+import map.Room;
+
 public class GameFrame extends JFrame {
 
 	public static final int TILE_SIZE = 48;
@@ -91,7 +94,16 @@ public class GameFrame extends JFrame {
 		g2temp.fillRect(0, 0, screenWidth, screenHeight);
 		
 		//draw all elements to
-		state.draw(g2temp);
+		renderRoom(state, g2temp);
+        Camera camera = state.getCamera();
+        state.getEntities().stream()
+                .filter(entity -> camera.isInView(entity))
+                .forEach(entity -> g2temp.drawImage(
+                entity.getSprite(),
+                entity.getPosition().intX() - camera.getPosition().intX() - entity.getSize().getWidth() / 2,
+                entity.getPosition().intY() - camera.getPosition().intY() - entity.getSize().getHeight() / 2,
+                null
+        ));
 
 		g2temp.dispose();
 
@@ -100,6 +112,25 @@ public class GameFrame extends JFrame {
         g2d.fillRect(0, 0, screenWidth, screenHeight);
 		g2d.drawImage(tempScreen, 0, 0, screenWidth, screenHeight, null);
 	}
+
+	private void renderRoom(State state, Graphics2D graphics) {
+        Room room = state.getCurrentRoom();
+        Camera camera = state.getCamera();
+
+        Position start = room.getViewableStartingGridPosition(camera);
+        Position end = room.getViewableEndingGridPosition(camera);
+
+        for(int x = start.intX(); x < end.intX(); x++) {
+            for(int y = start.intY(); y < end.intY(); y++) {
+                graphics.drawImage(
+                        room.getTileArr()[x][y].getSprite(),
+                        x * TILE_SIZE - camera.getPosition().intX(),
+                        y * TILE_SIZE - camera.getPosition().intY(),
+                        null
+                );
+            }
+        }
+    }
 
 	public void setFullscreen(){
         //GET LOCAL SCREEN DEVICE

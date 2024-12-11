@@ -20,19 +20,14 @@ public class EnemyHandler {
     }
 
     public void update(Player player){
-        int i = 0;
-        while(i < enemies.size()){ 
-            enemies.get(i).getValue().update(player);
-            i++;
+        if(player != null){
+            int i = 0;
+            while(i < enemies.size()){ 
+                enemies.get(i).getValue().update(player);
+                i++;
+            }
         }
-    }
-
-    public void draw(Graphics2D g2){
-        int i = 0;
-        while(i < enemies.size()){ 
-            enemies.get(i).getValue().draw(g2);
-            i++;
-        }
+        
     }
 
 }

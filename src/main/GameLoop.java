@@ -20,9 +20,7 @@ public class GameLoop implements Runnable {
     public void init(long seed) {
         // Perform all initializations ...
         state = new GameState(seed);
-        canvas.addKeyListener(state.getKeyListener());
-        canvas.addMouseListener(state.getMouseListener());
-        canvas.addMouseMotionListener(state.getMouseMotionListener());
+        canvas.addKeyListener(state.getInput());
     }
 
     @Override

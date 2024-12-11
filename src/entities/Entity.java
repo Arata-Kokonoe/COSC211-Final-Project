@@ -1,27 +1,32 @@
 package entities;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.nio.file.attribute.PosixFileAttributeView;
 
 import javax.imageio.ImageIO;
 
+import core.Position;
+import core.Size;
 import main.GameFrame;
+import main.State;
 import main.UtilityTool;
 
-public class Entity {
+public abstract class Entity {
 
-    protected int x, y, width, height, speed;
-    protected Hitbox hitbox;
+    protected Position position;
+    protected Size size;
 
     public Entity(){
         //default values
-        x = 50;
-        y = 50;
-        width = 48;
-        height = 48;
-        speed = 3;
-
-        hitbox = new Hitbox(x, y, width, height);
+        position = new Position(50, 50);
+        size = new Size(GameFrame.TILE_SIZE, GameFrame.TILE_SIZE);
     }
+
+    public abstract void update(State state);
+    public abstract Image getSprite();
+    public abstract Hitbox getHitbox();
+    public abstract boolean collidesWith(Entity other);
 
     public BufferedImage setup(String imagePath){
 
@@ -39,11 +44,18 @@ public class Entity {
         return image;
     }
 
-    public void draw(Graphics2D g2){
+    //Getters
+        public Position getPosition() {
+            return position;
+        }
 
-    }
+        public Size getSize() {
+            return size;
+        }
 
-    public void update(){
-
-    }
+    //Setters
+        public void setPosition(Position position) {
+            this.position = position;
+        }
+    
 }

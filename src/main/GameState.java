@@ -7,48 +7,42 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
+import controller.PlayerController;
+import core.Size;
 import entities.Player;
 import entities.enemies.EnemyHandler;
 import map.MapGraph;
 import map.Room;
 
-public class GameState {
+public class GameState extends State{
 	
-    private boolean upPressed, downPressed, leftPressed, rightPressed;
     private Player player;
 
 	public boolean settingsChanged;
 	public boolean fullscreen;
 
-	private int state;
+	private int status;
 	public final int TITLE_STATE = 0;
 	public final int PLAY_STATE = 1;
 	public final int SETTINGS_STATE = 2;
 
 	private MapGraph mapGraph;
-	private Room currentRoom;
 	private String currentFloor;
 
 	private EnemyHandler enemyHandler;
 
 	private Random rng;
-
-	private KeyHandler keyHandler;
-	private MouseHandler mouseHandler;
+	//private MouseHandler mouseHandler;
 	
 	public GameState(long seed) {
-		//
-		// Initialize the game state and all elements ...
-		//
+		super(new Size(GameFrame.MAX_COL * GameFrame.TILE_SIZE, GameFrame.MAX_ROW * GameFrame.TILE_SIZE), new Input());
 
 		rng = new Random(seed);
 
-        player = new Player();
+		//mouseHandler = new MouseHandler();
+		status = PLAY_STATE;
 
-		keyHandler = new KeyHandler();
-		mouseHandler = new MouseHandler();
-		state = PLAY_STATE;
-
+		initializePlayer();
 		enemyHandler = new EnemyHandler();
 
 		currentFloor = "start";
@@ -61,11 +55,11 @@ public class GameState {
 	 * The method which updates the game state.
 	 */
 	public void update() {
-		if(state == PLAY_STATE){
-			player.update(upPressed, downPressed, leftPressed, rightPressed, currentRoom.getRoomArr());
+		if(status == PLAY_STATE){
+			super.update();
 			enemyHandler.update(player);
 		}
-		else if (state == SETTINGS_STATE){
+		else if (status == SETTINGS_STATE){
 
 		}
 		//
@@ -74,23 +68,21 @@ public class GameState {
 		//
 	}	
 
-	public void draw(Graphics2D g2){
-		
-		currentRoom.draw(g2);
-		enemyHandler.draw(g2);
-		player.draw(g2);
-		
+	public void initializePlayer(){
+		Player player = new Player(new PlayerController(input));
+        entities.add(player);
+        camera.focusOn(player);
 	}
 	
-	public KeyListener getKeyListener() {
-		return keyHandler;
+	public KeyListener getInput() {
+		return input;
 	}
-	public MouseListener getMouseListener() {
+	/*public MouseListener getMouseListener() {
 		return mouseHandler;
 	}
 	public MouseMotionListener getMouseMotionListener() {
 		return mouseHandler;
-	}
+	}*/
 
 	public Random getRNG(){
 		return rng;
@@ -99,77 +91,18 @@ public class GameState {
 		currentRoom = newRoom;
 		enemyHandler.addRoomEnemies(currentRoom.getEnemyList());
 	}
-	public int getState(){
-		return state;
+	public int getStatus(){
+		return status;
 	}
 
 
 
 	/**
-	 * The keyboard handler.
+	 *      if(e.getKeyCode() == KeyEvent.VK_F){
+            if (fullscreen == false) fullscreen = true;
+            else if (fullscreen == true) fullscreen = false;
+            settingsChanged = true;
+        } 
 	 */
-	class KeyHandler implements KeyListener {
 
-		@Override
-		public void keyTyped(KeyEvent e) {
-        
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-            if(e.getKeyCode() == KeyEvent.VK_W) upPressed = true;
-            if(e.getKeyCode() == KeyEvent.VK_S) downPressed = true;
-            if(e.getKeyCode() == KeyEvent.VK_A) leftPressed = true;
-            if(e.getKeyCode() == KeyEvent.VK_D) rightPressed = true;
-
-			if(e.getKeyCode() == KeyEvent.VK_F){
-				if (fullscreen == false) fullscreen = true;
-				else if (fullscreen == true) fullscreen = false;
-				settingsChanged = true;
-			} 
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-            if(e.getKeyCode() == KeyEvent.VK_W) upPressed = false;
-            if(e.getKeyCode() == KeyEvent.VK_S) downPressed = false;
-            if(e.getKeyCode() == KeyEvent.VK_A) leftPressed = false;
-            if(e.getKeyCode() == KeyEvent.VK_D) rightPressed = false;
-		}
-
-	}
-
-	/**
-	 * The mouse handler.
-	 */
-	class MouseHandler implements MouseListener, MouseMotionListener {
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseDragged(MouseEvent e) {
-		}
-
-		@Override
-		public void mouseMoved(MouseEvent e) {
-		}
-	}
 }

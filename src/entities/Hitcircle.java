@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 public class Hitcircle{
     private int x, y, entityWidth, entityHeight, radius;
 
-    public Hitcircle(int entX, int entY, int entWidth, int entHeight,int rad){
+    public Hitcircle(int entX, int entY, int entWidth, int entHeight, int rad){
         x = entX + entWidth/2;
         y = entY + entHeight/2;
         radius = rad;
@@ -31,11 +31,11 @@ public class Hitcircle{
         //separating axis theorem
         int testX = x, testY = y, distX, distY, distance;
 
-        if (x < other.x) testX = other.x;        // left edge
-        else if (x > other.x + other.width) testX = other.x + other.width;     // right edge
+        if (x < other.getHitbox().getX()) testX = (int)other.getHitbox().getX();        // left edge
+        else if (x > other.getHitbox().getX() + other.getHitbox().getWidth()) testX = (int)(other.getHitbox().getX() + other.getHitbox().getWidth());     // right edge
 
-        if (y < other.y) testY = other.y;        // top edge
-        else if (y > other.y + other.height) testY = other.y + other.height;     // bottom edge
+        if (y < other.getHitbox().getY()) testY = (int)other.getHitbox().getY();        // top edge
+        else if (y > other.getHitbox().getY() + other.getHitbox().getHeight()) testY = (int)(other.getHitbox().getY() + other.getHitbox().getHeight());     // bottom edge
 
         distX = testX - x;
         distY = testY - y;
