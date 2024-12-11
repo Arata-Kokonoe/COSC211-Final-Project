@@ -38,4 +38,18 @@ public class Position {
         x += vector.getX();
         y += vector.getY();
     }
+
+    public void apply(Vector2D newVector) {
+        Vector2D vector = newVector;
+        x += vector.getX();
+        y += vector.getY();
+    }
+
+    public void applyX(int xVel) {
+        this.x += xVel;
+    }
+
+    public void applyY(int yVel) {
+        this.y += yVel;
+    }
 }

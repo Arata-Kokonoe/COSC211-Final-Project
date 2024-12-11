@@ -4,8 +4,8 @@ import controller.Controller;
 
 public class Motion {
 
-    private Vector2D vector;
-    private double speed;
+    protected Vector2D vector;
+    protected double speed;
 
     public Motion(double speed) {
         this.speed = speed;
@@ -35,11 +35,15 @@ public class Motion {
         vector = new Vector2D(deltaX, deltaY);
         vector.normalize();
         vector.multiply(speed);
-        System.out.println(vector.length());
+
     }
 
     public Vector2D getVector() {
         return vector;
+    }
+
+    public void setVector(Vector2D newVector){
+        vector = newVector;
     }
 
     public boolean isMoving() {
@@ -48,6 +52,14 @@ public class Motion {
 
     public void multiply(double multiplier) {
         vector.multiply(multiplier);
+    }
+
+    public void multiplyX(double multiplier) {
+        vector.multiplyX(multiplier);
+    }
+
+    public void multiplyY(double multiplier) {
+        vector.multiplyY(multiplier);
     }
 
     public void stop() {

@@ -3,13 +3,13 @@ package core;
 //a group of contants that describe direction of movement
 public enum Direction {
     S(0),
-    SW(1),
-    W(2),
-    NW(3),
-    N(4),
-    NE(5),
-    E(6),
-    SE(7);
+    SW(0),
+    W(3),
+    NW(1),
+    N(1),
+    NE(1),
+    E(2),
+    SE(0);
 
     private int animationRow;
 

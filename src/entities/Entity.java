@@ -30,13 +30,10 @@ public abstract class Entity {
 
     public BufferedImage setup(String imagePath){
 
-        UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
 
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/res" + imagePath + ".png"));
-            image = uTool.scaleImage(image, GameFrame.TILE_SIZE, GameFrame.TILE_SIZE);
-        
         } catch (Exception e) {
             e.printStackTrace();
         }

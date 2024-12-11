@@ -2,7 +2,9 @@ package entities.enemies;
 
 import java.awt.Graphics2D;
 
+import controller.BlankController;
 import controller.ChaseController;
+import controller.Controller;
 import core.Position;
 import entities.Entity;
 import entities.MovingEntity;
@@ -12,21 +14,19 @@ import entities.obstacle.Obstacle;
 public class Enemy extends MovingEntity{
 
     public Enemy(){
-        super(new ChaseController(new Position(0, 0)));
+        super(new BlankController());
     }
-
-    public void update(Player player){
-        
-    }
-
+    
     @Override
     protected void handleCollision(Entity other) {
-        if(other instanceof Obstacle) {
-            movement.multiply(-1);
+        if(other != this && other instanceof MovingEntity){
+            this.movement.stop();
         }
-        else if (other instanceof Enemy){
-            movement.multiply(-1);
-        }
+
+    }
+
+    public void setController(ChaseController controller){
+        this.controller = controller;
     }
 
 }

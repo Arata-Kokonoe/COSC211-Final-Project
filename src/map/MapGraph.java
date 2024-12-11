@@ -1,5 +1,7 @@
 package map;
 
+import java.util.Random;
+
 import main.GameState;
 
 public class MapGraph {
@@ -8,8 +10,10 @@ public class MapGraph {
     private GameState state;
     private boolean arr[][];
     private List<Room> roomList;
+    private Random rng;
 
-    public MapGraph(GameState s){
+    public MapGraph(GameState s, Random rng){
+        this.rng = rng;
         state = s;
         arr = new boolean[30][30]; //max floor will lie on a 30x30 2d array
         roomList = new List<Room>();
@@ -20,12 +24,10 @@ public class MapGraph {
         roomList.add(new Room(0));
         state.setCurrentRoom(roomList.getFirst().getValue());
 
-        /*
-        int roomAmount = state.rng.nextInt(7, 10);
+        int roomAmount = rng.nextInt(7, 10);
         for(int i = 0; i < roomAmount; i++){
-            roomList.add(new Room(state.rng.nextInt(1, Room.MAX_ROOMS)));
+            roomList.add(new Room(rng.nextInt(1, Room.MAX_ROOMS)));
         }
-        */
 
     }
 

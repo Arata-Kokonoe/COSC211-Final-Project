@@ -3,6 +3,7 @@ package entities;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import controller.Controller;
 import core.Direction;
@@ -18,6 +19,7 @@ public abstract class MovingEntity extends Entity{
     protected AnimationManager animationManager;
     protected int speed;
     protected Direction direction;
+    protected boolean move;
 
     public MovingEntity(Controller controller) {
         super();
@@ -30,7 +32,24 @@ public abstract class MovingEntity extends Entity{
     }
 
     @Override
-    public void update(State state) {   
+    public void update(State state) {  
+
+        move = true;
+        handleMotion();
+        Rectangle toMove = getHitbox().apply(movement);
+        List<Entity> collided = state.getCollidingGameObjects(toMove);
+        int i = 0;
+        while(i < collided.size()){
+            this.handleCollision(collided.get(i));
+            i++;
+        }
+        if(move == true) position.apply(movement);
+        else{
+            
+        }
+
+        /*
+        moveUp = true; moveDown = true; moveLeft = true; moveRight = true;
         handleMotion();
         animationManager.update(direction);
 
@@ -38,23 +57,29 @@ public abstract class MovingEntity extends Entity{
         manageDirection();
         decideAnimation();
 
-        position.apply(movement);
+        if(moveUp && moveDown && moveLeft && moveRight) position.apply(movement);
+        else {
+            //if((controller.up() || controller.down()) && (controller.left() || controller.right()));
+            if (!moveUp || !moveDown) position.setX(position.getX() + movement.getVector().getX());
+            if (!moveLeft || !moveRight) position.setY(position.getY() + movement.getVector().getY());
+        }
+        */
     }
 
-    private void handleCollisions(State state) {
+    protected void handleCollisions(State state) {
         state.getCollidingGameObjects(this).forEach(this::handleCollision);
     }
 
     protected abstract void handleCollision(Entity other);
 
-    private void handleMotion() {
+    protected void handleMotion() {
         movement.update(controller);
     }
 
-    private void decideAnimation() {
+    protected void decideAnimation() {
     }
 
-    private void manageDirection() {
+    protected void manageDirection() {
         if(movement.isMoving()) {
             this.direction = Direction.fromMotion(movement);
         }
@@ -62,15 +87,16 @@ public abstract class MovingEntity extends Entity{
 
     @Override
     public boolean collidesWith(Entity other) {
-        return getHitbox().collidesWith(other.getHitbox());
+        if(getHitbox().collidesWith(other.getHitbox())) return true;
+        else return false;
     }
 
     @Override
     public Hitbox getHitbox() {
         return new Hitbox(
             new Rectangle(
-                position.intX(),
-                position.intY(),
+                position.intX() - size.getWidth()/2,
+                position.intY() - size.getHeight()/2,
                 size.getWidth(),
                 size.getHeight()
             )
@@ -79,7 +105,6 @@ public abstract class MovingEntity extends Entity{
 
     @Override
     public Image getSprite() {
-        System.out.println(this);
         return animationManager.getSprite();
     }
 

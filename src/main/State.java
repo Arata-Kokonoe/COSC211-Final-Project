@@ -6,6 +6,7 @@ import entities.Entity;
 import map.Room;
 
 import java.util.List;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -52,6 +53,11 @@ public abstract class State {
     public List<Entity> getCollidingGameObjects(Entity entity) {
         return entities.stream()
                 .filter(other -> other.collidesWith(entity))
+                .collect(Collectors.toList());
+    }
+    public List<Entity> getCollidingGameObjects(Rectangle hitbox) {
+        return entities.stream()
+                .filter(other -> other.getHitbox().getHitbox().intersects(hitbox))
                 .collect(Collectors.toList());
     }
 }

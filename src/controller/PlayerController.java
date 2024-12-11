@@ -14,21 +14,21 @@ public class PlayerController implements Controller{
 
     @Override
     public boolean up() {
-        return input.isPressed(KeyEvent.VK_UP);
+        return input.isPressed(KeyEvent.VK_W);
     }
 
     @Override
     public boolean down() {
-        return input.isPressed(KeyEvent.VK_DOWN);
+        return input.isPressed(KeyEvent.VK_S);
     }
 
     @Override
     public boolean left() {
-        return input.isPressed(KeyEvent.VK_LEFT);
+        return input.isPressed(KeyEvent.VK_A);
     }
 
     @Override
     public boolean right() {
-        return input.isPressed(KeyEvent.VK_RIGHT);
+        return input.isPressed(KeyEvent.VK_D);
     }
 }

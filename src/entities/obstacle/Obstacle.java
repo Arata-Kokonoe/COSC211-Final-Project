@@ -13,7 +13,7 @@ import core.Size;
 public abstract class Obstacle extends Entity{
     
     public boolean collision;
-    private BufferedImage sprite;
+    protected BufferedImage sprite;
 
     public final static int MAX_OBS = 3;
     
@@ -47,12 +47,16 @@ public abstract class Obstacle extends Entity{
     public Hitbox getHitbox(){
         return new Hitbox(
             new Rectangle(
-                position.intX(),
-                position.intY(),
+                position.intX() - size.getWidth()/2,
+                position.intY() - size.getHeight()/2,
                 size.getWidth(),
                 size.getHeight()
             )
         );
     };
+
+    public boolean getCollision(){
+        return collision;
+    }
 
 }

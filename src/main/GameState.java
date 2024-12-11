@@ -7,16 +7,16 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
+import controller.ChaseController;
 import controller.PlayerController;
 import core.Size;
+import entities.Entity;
 import entities.Player;
-import entities.enemies.EnemyHandler;
 import map.MapGraph;
 import map.Room;
 
 public class GameState extends State{
-	
-    private Player player;
+	Player player;
 
 	public boolean settingsChanged;
 	public boolean fullscreen;
@@ -28,8 +28,6 @@ public class GameState extends State{
 
 	private MapGraph mapGraph;
 	private String currentFloor;
-
-	private EnemyHandler enemyHandler;
 
 	private Random rng;
 	//private MouseHandler mouseHandler;
@@ -43,10 +41,9 @@ public class GameState extends State{
 		status = PLAY_STATE;
 
 		initializePlayer();
-		enemyHandler = new EnemyHandler();
 
 		currentFloor = "start";
-		mapGraph = new MapGraph(this);
+		mapGraph = new MapGraph(this, rng);
 		mapGraph.makeGraph(currentFloor);
 
 	}
@@ -57,7 +54,12 @@ public class GameState extends State{
 	public void update() {
 		if(status == PLAY_STATE){
 			super.update();
-			enemyHandler.update(player);
+
+			if(input.isPressed(KeyEvent.VK_F)){
+				if (fullscreen == false) fullscreen = true;
+				else if (fullscreen == true) fullscreen = false;
+				settingsChanged = true;
+			}
 		}
 		else if (status == SETTINGS_STATE){
 
@@ -69,8 +71,8 @@ public class GameState extends State{
 	}	
 
 	public void initializePlayer(){
-		Player player = new Player(new PlayerController(input));
-        entities.add(player);
+		player = new Player(new PlayerController(input));
+		entities.add(player);
         camera.focusOn(player);
 	}
 	
@@ -89,10 +91,23 @@ public class GameState extends State{
 	}
 	public void setCurrentRoom(Room newRoom){
 		currentRoom = newRoom;
-		enemyHandler.addRoomEnemies(currentRoom.getEnemyList());
+		int i = 0;
+		while(i < currentRoom.getEnemyList().size()){
+			currentRoom.getEnemyList().get(i).getValue().setController(new ChaseController(currentRoom.getEnemyList().get(i).getValue(), getPlayer()));
+			entities.add(currentRoom.getEnemyList().get(i).getValue());
+			i++;
+		}
+		i = 0;
+		while(i < currentRoom.getObsList().size()){
+			entities.add(currentRoom.getObsList().get(i).getValue());
+			i++;
+		}
 	}
 	public int getStatus(){
 		return status;
+	}
+	public Player getPlayer(){
+		return player;
 	}
 
 

@@ -103,7 +103,12 @@ public class GameFrame extends JFrame {
                 entity.getPosition().intX() - camera.getPosition().intX() - entity.getSize().getWidth() / 2,
                 entity.getPosition().intY() - camera.getPosition().intY() - entity.getSize().getHeight() / 2,
                 null
-        ));
+        		));
+		g2temp.setColor(Color.RED);
+		state.getEntities().stream()
+                .filter(entity -> camera.isInView(entity))
+                .forEach(entity -> entity.getHitbox().draw(g2temp)
+        		);
 
 		g2temp.dispose();
 

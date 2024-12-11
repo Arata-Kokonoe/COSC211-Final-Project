@@ -5,8 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
+import core.Motion;
 import core.Position;
 import core.Size;
+import core.Vector2D;
 
 public class Hitbox{
     
@@ -20,6 +22,13 @@ public class Hitbox{
         return hitbox.intersects(other.getHitbox());
     }
 
+    public Rectangle apply(Motion movement){
+        Vector2D vector = movement.getVector();
+        int newX = (int)(hitbox.x + vector.getX());
+        int newY = (int)(hitbox.y + vector.getY());
+        return new Rectangle(newX, newY, hitbox.width, hitbox.height);
+    }
+
     public void draw(Graphics2D g2){
         g2.setColor(Color.RED);
         g2.draw(hitbox);
@@ -27,6 +36,15 @@ public class Hitbox{
 
     public Rectangle getHitbox() {
         return hitbox;
+    }
+
+    public Rectangle getBounds(Vector2D velocity){
+        int bx = (int)(hitbox.getX() + velocity.getX());
+        int by = (int)(hitbox.getY() + velocity.getY());
+        int bw = (int)(hitbox.getWidth() + velocity.getX()/2);
+        int bh = (int)(hitbox.getWidth() + velocity.getY()/2);
+
+        return new Rectangle(bx, by, bw, bh);
     }
     
     

@@ -25,8 +25,7 @@ public class AnimationManager {
     }
 
     public Image getSprite() {
-        directionIndex = 0;
-        System.out.println("x = " + frameIndex * entity.getSize().getWidth() + " || y = " + directionIndex * entity.getSize().getHeight() + " || width = " + entity.getSize().getWidth() + " || height = " + entity.getSize().getHeight());
+        //System.out.println("x = " + frameIndex * entity.getSize().getWidth() + " || y = " + directionIndex * entity.getSize().getHeight() + " || width = " + entity.getSize().getWidth() + " || height = " + entity.getSize().getHeight());
         return currentAnimationSheet.getSubimage(
                 frameIndex * entity.getSize().getWidth(),
                 directionIndex * entity.getSize().getHeight(),

@@ -25,6 +25,14 @@ public class Vector2D {
         y *= speed;
     }
 
+    public void multiplyX(double speed) {
+        x *= speed;
+    }
+
+    public void multiplyY(double speed) {
+        y *= speed;
+    }
+
     public double getX() {
         return x;
     }
